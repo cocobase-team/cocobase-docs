@@ -68,6 +68,12 @@ const config = {
     ({
       // Replace with your project's social card
       image: "img/docusaurus-social-card.jpg",
+      prism: {
+        additionalLanguages: ['dart'], // include 'dart' for Dart syntax highlighting
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
+      },
+
       navbar: {
         title: "CocoBase",
         logo: {
@@ -127,12 +133,10 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()
+          } My Project, Inc.Built with Docusaurus.`,
       },
-      prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
-      },
+
     }),
 };
 
