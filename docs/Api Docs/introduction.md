@@ -1,3 +1,7 @@
+---
+
+sidebar_position: 1
+---
 # API Documentation
 
 ## Using the Collections API Without Client Libraries
