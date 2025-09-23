@@ -32,9 +32,15 @@ Add the following configuration keys to your project config:
   "GOOGLE_CLIENT_ID": "your-google-client-id.apps.googleusercontent.com",
   "GOOGLE_CLIENT_SECRET": "your-google-client-secret",
   "GOOGLE_REDIRECT_URL": "https://futurebase.vercel.app/auth-google-redirect/{project_id}",
+  //Replace the project id with your actuall project id
+  // Also use this redirect url on ur google oauth redirect url
+  // Change the redirect url if you want to handle the authentication yourself
   "GOOGLE_COMPLETE_URL": "https://yourdomain.com/auth-complete"
 }
 ```
+You can fing project settings on the side navigation under the settings drop down
+
+![Daily Journal Screenshot](side-nav.png)
 
 ### Configuration Parameters
 
@@ -63,7 +69,7 @@ Generates the Google OAuth URL for user authentication.
 **Usage Example:**
 ```javascript
 // Redirect user to Google login
-fetch('/login-google')
+fetch('https://futurebase.vercel.app/auth-collections/login-google')
   .then(response => response.json())
   .then(data => {
     window.location.href = data.url;
@@ -72,7 +78,7 @@ fetch('/login-google')
 
 ### 2. Google OAuth Callback
 
-**Endpoint:** `GET /auth-google-redirect/{project_id}`
+**Endpoint:** `GET https://futurebase.vercel.app/auth-collections/auth-google-redirect/{project_id}`
 
 Handles the callback from Google OAuth and processes user authentication.
 
@@ -86,12 +92,12 @@ Handles the callback from Google OAuth and processes user authentication.
 |----------|--------------|
 | Success (existing user) | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}` |
 | Success (new user) | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}` |
-| Invalid authorization code | `{GOOGLE_COMPLETE_URL}?error=invalid_authorization_code` |
-| Failed to get user info | `{GOOGLE_COMPLETE_URL}?error=failed_to_get_user_info` |
-| No email provided | `{GOOGLE_COMPLETE_URL}?error=no_email_provided` |
-| Email already registered with password | `{GOOGLE_COMPLETE_URL}?error=email_already_registered_with_password` |
-| Database error | `{GOOGLE_COMPLETE_URL}?error=database_error` |
-| Authentication failed | `{GOOGLE_COMPLETE_URL}?error=authentication_failed` |
+| Invalid authorization code | `{GOOGLE_COMPLETE_URL}?coco-error=invalid_authorization_code` |
+| Failed to get user info | `{GOOGLE_COMPLETE_URL}?coco-error=failed_to_get_user_info` |
+| No email provided | `{GOOGLE_COMPLETE_URL}?coco-error=no_email_provided` |
+| Email already registered with password | `{GOOGLE_COMPLETE_URL}?coco-error=email_already_registered_with_password` |
+| Database error | `{GOOGLE_COMPLETE_URL}?coco-error=database_error` |
+| Authentication failed | `{GOOGLE_COMPLETE_URL}?coco-error=authentication_failed` |
 
 ## User Flow
 
@@ -126,7 +132,7 @@ The system handles various error scenarios gracefully:
 // Handle the callback on your complete page
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('coco-super-token');
-const error = urlParams.get('error');
+const error = urlParams.get('coco-error');
 
 if (token) {
   // Store token and proceed with authenticated flow
@@ -193,6 +199,7 @@ function handleAuthCallback() {
     if (token) {
         // Success - store token and redirect
         sessionStorage.setItem('auth_token', token);
+        // OR if you are using the cocobase package simply set the cocobase auth token 
         window.location.href = '/dashboard';
     } else if (error) {
         // Handle error
