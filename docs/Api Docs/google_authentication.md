@@ -1,7 +1,7 @@
 ---
-
 sidebar_position: 2
 ---
+
 # Google OAuth Authentication
 
 This feature allows your application users to sign in using their Google accounts through OAuth 2.0 authentication flow.
@@ -11,6 +11,7 @@ This feature allows your application users to sign in using their Google account
 Before implementing Google OAuth, you need to:
 
 1. **Set up Google OAuth credentials:**
+
    - Go to [Google Cloud Console](https://console.cloud.google.com/)
    - Create a new project or select an existing one
    - Enable the Google+ API
@@ -31,25 +32,26 @@ Add the following configuration keys to your project config:
 {
   "GOOGLE_CLIENT_ID": "your-google-client-id.apps.googleusercontent.com",
   "GOOGLE_CLIENT_SECRET": "your-google-client-secret",
-  "GOOGLE_REDIRECT_URL": "https://futurebase.vercel.app/auth-google-redirect/{project_id}",
+  "GOOGLE_REDIRECT_URL": "https://cocobase.pxxl.click/auth-google-redirect/{project_id}",
   //Replace the project id with your actuall project id
   // Also use this redirect url on ur google oauth redirect url
   // Change the redirect url if you want to handle the authentication yourself
   "GOOGLE_COMPLETE_URL": "https://yourdomain.com/auth-complete"
 }
 ```
+
 You can fing project settings on the side navigation under the settings drop down
 
 ![Daily Journal Screenshot](side-nav.png)
 
 ### Configuration Parameters
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `GOOGLE_CLIENT_ID` | string | Yes | OAuth client ID from Google Cloud Console |
-| `GOOGLE_CLIENT_SECRET` | string | Yes | OAuth client secret from Google Cloud Console |
-| `GOOGLE_REDIRECT_URL` | string | Yes | Callback URL after Google authentication (our server)|
-| `GOOGLE_COMPLETE_URL` | string | Yes | Final redirect URL after processing (your server or website)|
+| Parameter              | Type   | Required | Description                                                  |
+| ---------------------- | ------ | -------- | ------------------------------------------------------------ |
+| `GOOGLE_CLIENT_ID`     | string | Yes      | OAuth client ID from Google Cloud Console                    |
+| `GOOGLE_CLIENT_SECRET` | string | Yes      | OAuth client secret from Google Cloud Console                |
+| `GOOGLE_REDIRECT_URL`  | string | Yes      | Callback URL after Google authentication (our server)        |
+| `GOOGLE_COMPLETE_URL`  | string | Yes      | Final redirect URL after processing (your server or website) |
 
 ## API Endpoints
 
@@ -60,6 +62,7 @@ You can fing project settings on the side navigation under the settings drop dow
 Generates the Google OAuth URL for user authentication.
 
 **Response:**
+
 ```json
 {
   "url": "https://accounts.google.com/oauth/authorize?client_id=...&redirect_uri=..."
@@ -67,37 +70,39 @@ Generates the Google OAuth URL for user authentication.
 ```
 
 **Usage Example:**
+
 ```javascript
 // Redirect user to Google login
-fetch('https://futurebase.vercel.app/auth-collections/login-google')
-  .then(response => response.json())
-  .then(data => {
+fetch("https://cocobase.pxxl.click/auth-collections/login-google")
+  .then((response) => response.json())
+  .then((data) => {
     window.location.href = data.url;
   });
 ```
 
 ### 2. Google OAuth Callback
 
-**Endpoint:** `GET https://futurebase.vercel.app/auth-collections/auth-google-redirect/{project_id}`
+**Endpoint:** `GET https://cocobase.pxxl.click/auth-collections/auth-google-redirect/{project_id}`
 
 Handles the callback from Google OAuth and processes user authentication.
 
 **Parameters:**
+
 - `code`: Authorization code from Google (query parameter)
 - `project_id`: Your project ID (path parameter)
 
 **Possible Redirects:**
 
-| Scenario | Redirect URL |
-|----------|--------------|
-| Success (existing user) | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}` |
-| Success (new user) | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}` |
-| Invalid authorization code | `{GOOGLE_COMPLETE_URL}?coco-error=invalid_authorization_code` |
-| Failed to get user info | `{GOOGLE_COMPLETE_URL}?coco-error=failed_to_get_user_info` |
-| No email provided | `{GOOGLE_COMPLETE_URL}?coco-error=no_email_provided` |
+| Scenario                               | Redirect URL                                                              |
+| -------------------------------------- | ------------------------------------------------------------------------- |
+| Success (existing user)                | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}`                   |
+| Success (new user)                     | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}`                   |
+| Invalid authorization code             | `{GOOGLE_COMPLETE_URL}?coco-error=invalid_authorization_code`             |
+| Failed to get user info                | `{GOOGLE_COMPLETE_URL}?coco-error=failed_to_get_user_info`                |
+| No email provided                      | `{GOOGLE_COMPLETE_URL}?coco-error=no_email_provided`                      |
 | Email already registered with password | `{GOOGLE_COMPLETE_URL}?coco-error=email_already_registered_with_password` |
-| Database error | `{GOOGLE_COMPLETE_URL}?coco-error=database_error` |
-| Authentication failed | `{GOOGLE_COMPLETE_URL}?coco-error=authentication_failed` |
+| Database error                         | `{GOOGLE_COMPLETE_URL}?coco-error=database_error`                         |
+| Authentication failed                  | `{GOOGLE_COMPLETE_URL}?coco-error=authentication_failed`                  |
 
 ## User Flow
 
@@ -110,7 +115,9 @@ Handles the callback from Google OAuth and processes user authentication.
 ## User Management
 
 ### New Users
+
 When a user signs in with Google for the first time:
+
 - A new `AppUser` record is created
 - `oauth_id` is set to Google's user ID (`sub` field)
 - `email` is set from Google profile
@@ -118,7 +125,9 @@ When a user signs in with Google for the first time:
 - `data.username` is generated from Google name or falls back to truncated user ID
 
 ### Existing Users
+
 For users who already exist in the system:
+
 - **OAuth users**: Successfully logged in with new token
 - **Password users**: Prevented from using OAuth (returns error)
 
@@ -131,21 +140,21 @@ The system handles various error scenarios gracefully:
 ```javascript
 // Handle the callback on your complete page
 const urlParams = new URLSearchParams(window.location.search);
-const token = urlParams.get('coco-super-token');
-const error = urlParams.get('coco-error');
+const token = urlParams.get("coco-super-token");
+const error = urlParams.get("coco-error");
 
 if (token) {
   // Store token and proceed with authenticated flow
-  localStorage.setItem('auth_token', token);
+  localStorage.setItem("auth_token", token);
   // Redirect to dashboard or main app
 } else if (error) {
   // Handle specific errors
-  switch(error) {
-    case 'email_already_registered_with_password':
-      alert('This email is already registered. Please use password login.');
+  switch (error) {
+    case "email_already_registered_with_password":
+      alert("This email is already registered. Please use password login.");
       break;
-    case 'invalid_authorization_code':
-      alert('Authentication failed. Please try again.');
+    case "invalid_authorization_code":
+      alert("Authentication failed. Please try again.");
       break;
     // Handle other error cases
   }
@@ -166,24 +175,26 @@ if (token) {
 ```html
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Google OAuth Login</title>
-</head>
-<body>
+  </head>
+  <body>
     <button id="googleLogin">Sign in with Google</button>
-    
+
     <script>
-        document.getElementById('googleLogin').addEventListener('click', async () => {
-            try {
-                const response = await fetch('/login-google');
-                const data = await response.json();
-                window.location.href = data.url;
-            } catch (error) {
-                console.error('Login failed:', error);
-            }
+      document
+        .getElementById("googleLogin")
+        .addEventListener("click", async () => {
+          try {
+            const response = await fetch("/login-google");
+            const data = await response.json();
+            window.location.href = data.url;
+          } catch (error) {
+            console.error("Login failed:", error);
+          }
         });
     </script>
-</body>
+  </body>
 </html>
 ```
 
@@ -192,19 +203,19 @@ if (token) {
 ```javascript
 // On your GOOGLE_COMPLETE_URL page
 function handleAuthCallback() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('coco-super-token');
-    const error = urlParams.get('error');
-    
-    if (token) {
-        // Success - store token and redirect
-        sessionStorage.setItem('auth_token', token);
-        // OR if you are using the cocobase package simply set the cocobase auth token 
-        window.location.href = '/dashboard';
-    } else if (error) {
-        // Handle error
-        displayError(error);
-    }
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("coco-super-token");
+  const error = urlParams.get("error");
+
+  if (token) {
+    // Success - store token and redirect
+    sessionStorage.setItem("auth_token", token);
+    // OR if you are using the cocobase package simply set the cocobase auth token
+    window.location.href = "/dashboard";
+  } else if (error) {
+    // Handle error
+    displayError(error);
+  }
 }
 
 // Call on page load
@@ -216,15 +227,19 @@ handleAuthCallback();
 ### Common Issues
 
 1. **"GOOGLE_CLIENT_ID key missing"**
+
    - Ensure you've added the client ID to your project configuration
 
 2. **"GOOGLE_REDIRECT_URL key missing"**
+
    - Verify the redirect URL is configured and matches Google Console settings
 
 3. **"Invalid authorization code"**
+
    - Check that your redirect URI exactly matches the one registered in Google Console
 
 4. **"Email already registered with password"**
+
    - User must use regular password login instead of OAuth
 
 5. **"Failed to get user info"**

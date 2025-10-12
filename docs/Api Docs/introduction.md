@@ -1,7 +1,7 @@
 ---
-
 sidebar_position: 1
 ---
+
 # API Documentation
 
 ## Using the Collections API Without Client Libraries
@@ -13,7 +13,7 @@ Welcome to the Cocobase API documentation! This guide will help you integrate wi
 ### Base URL
 
 ```
-https://futurebase.vercel.app
+https://cocobase.pxxl.click
 ```
 
 ### Authentication
