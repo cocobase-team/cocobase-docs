@@ -13,7 +13,7 @@ Welcome to the Cocobase API documentation! This guide will help you integrate wi
 ### Base URL
 
 ```
-https://cocobase.pxxl.click
+https://api.cocobase.buzz
 ```
 
 ### Authentication

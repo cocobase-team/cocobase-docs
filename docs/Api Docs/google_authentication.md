@@ -32,7 +32,7 @@ Add the following configuration keys to your project config:
 {
   "GOOGLE_CLIENT_ID": "your-google-client-id.apps.googleusercontent.com",
   "GOOGLE_CLIENT_SECRET": "your-google-client-secret",
-  "GOOGLE_REDIRECT_URL": "https://cocobase.pxxl.click/auth-google-redirect/{project_id}",
+  "GOOGLE_REDIRECT_URL": "https://api.cocobase.buzz/auth-google-redirect/{project_id}",
   //Replace the project id with your actuall project id
   // Also use this redirect url on ur google oauth redirect url
   // Change the redirect url if you want to handle the authentication yourself
@@ -73,7 +73,7 @@ Generates the Google OAuth URL for user authentication.
 
 ```javascript
 // Redirect user to Google login
-fetch("https://cocobase.pxxl.click/auth-collections/login-google")
+fetch("https://api.cocobase.buzz/auth-collections/login-google")
   .then((response) => response.json())
   .then((data) => {
     window.location.href = data.url;
@@ -82,7 +82,7 @@ fetch("https://cocobase.pxxl.click/auth-collections/login-google")
 
 ### 2. Google OAuth Callback
 
-**Endpoint:** `GET https://cocobase.pxxl.click/auth-collections/auth-google-redirect/{project_id}`
+**Endpoint:** `GET https://api.cocobase.buzz/auth-collections/auth-google-redirect/{project_id}`
 
 Handles the callback from Google OAuth and processes user authentication.
 
