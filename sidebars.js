@@ -87,9 +87,11 @@ const sidebars = {
       label: "🌐 REST API Reference",
       collapsed: false,
       items: [
-        "api/introduction",
+        "api/overview",
         "api/authentication",
-        "api/endpoints",
+        "api/collections",
+        "api/auth-collections",
+        "api/google-authentication",
         "api/error-handling",
       ],
     },

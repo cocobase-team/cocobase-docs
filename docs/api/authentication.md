@@ -1,251 +1,269 @@
+
 ---
 sidebar_position: 2
+title: "Authentication"
 ---
 
-# Google OAuth Authentication
+# Authentication
 
-This feature allows your application users to sign in using their Google accounts through OAuth 2.0 authentication flow.
+All API requests require authentication using either an API key or user token.
 
-## Prerequisites
+**Base URL:** `https://api.cocobase.buzz`
 
-Before implementing Google OAuth, you need to:
+---
 
-1. **Set up Google OAuth credentials:**
+## API Key Authentication
 
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a new project or select an existing one
-   - Enable the Google+ API
-   - Go to "Credentials" → "Create Credentials" → "OAuth 2.0 Client IDs"
-   - Set your application type and authorized redirect URIs
+Use your project's API key for server-side requests.
 
-2. **Configure your project settings** with the following required keys:
-   - `GOOGLE_CLIENT_ID`: Your Google OAuth client ID
-   - `GOOGLE_CLIENT_SECRET`: Your Google OAuth client secret
-   - `GOOGLE_REDIRECT_URL`: The redirect URL registered in Google Console
-   - `GOOGLE_COMPLETE_URL`: The URL where users are redirected after authentication
+### Header Format
 
-## Configuration
-
-Add the following configuration keys to your project config:
-
-```json
-{
-  "GOOGLE_CLIENT_ID": "your-google-client-id.apps.googleusercontent.com",
-  "GOOGLE_CLIENT_SECRET": "your-google-client-secret",
-  "GOOGLE_REDIRECT_URL": "https://api.cocobase.buzz/auth-google-redirect/{project_id}",
-  //Replace the project id with your actuall project id
-  // Also use this redirect url on ur google oauth redirect url
-  // Change the redirect url if you want to handle the authentication yourself
-  "GOOGLE_COMPLETE_URL": "https://yourdomain.com/auth-complete"
-}
+```http
+x-api-key: your-project-api-key
 ```
 
-You can find project settings on the side navigation under the settings drop down.
+### Example
 
-### Configuration Parameters
+```bash
+curl -X GET "https://api.cocobase.buzz/api/collections" \
+  -H "x-api-key: pk_1234567890abcdef"
+```
 
-| Parameter              | Type   | Required | Description                                                  |
-| ---------------------- | ------ | -------- | ------------------------------------------------------------ |
-| `GOOGLE_CLIENT_ID`     | string | Yes      | OAuth client ID from Google Cloud Console                    |
-| `GOOGLE_CLIENT_SECRET` | string | Yes      | OAuth client secret from Google Cloud Console                |
-| `GOOGLE_REDIRECT_URL`  | string | Yes      | Callback URL after Google authentication (our server)        |
-| `GOOGLE_COMPLETE_URL`  | string | Yes      | Final redirect URL after processing (your server or website) |
+### Getting Your API Key
 
-## API Endpoints
+1. Log in to [cocobase.buzz](https://cocobase.buzz)
+2. Go to your project settings
+3. Copy your API key
 
-### 1. Initiate Google Login
+⚠️ **Security Warning**: Never expose your API key in client-side code!
 
-**Endpoint:** `GET /login-google`
+---
 
-Generates the Google OAuth URL for user authentication.
+## User Token Authentication
+
+For authenticated user requests (after login/signup).
+
+### Header Format
+
+```http
+Authorization: Bearer user-jwt-token
+```
+
+### Example
+
+```bash
+curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+```
+
+### Getting a Token
+
+#### 1. User Signup
+
+```bash
+curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+  -H "x-api-key: your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepass123"
+  }'
+```
 
 **Response:**
 
 ```json
 {
-  "url": "https://accounts.google.com/oauth/authorize?client_id=...&redirect_uri=..."
-}
-```
-
-**Usage Example:**
-
-```javascript
-// Redirect user to Google login
-fetch("https://api.cocobase.buzz/auth-collections/login-google")
-  .then((response) => response.json())
-  .then((data) => {
-    window.location.href = data.url;
-  });
-```
-
-### 2. Google OAuth Callback
-
-**Endpoint:** `GET https://api.cocobase.buzz/auth-collections/auth-google-redirect/{project_id}`
-
-Handles the callback from Google OAuth and processes user authentication.
-
-**Parameters:**
-
-- `code`: Authorization code from Google (query parameter)
-- `project_id`: Your project ID (path parameter)
-
-**Possible Redirects:**
-
-| Scenario                               | Redirect URL                                                              |
-| -------------------------------------- | ------------------------------------------------------------------------- |
-| Success (existing user)                | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}`                   |
-| Success (new user)                     | `{GOOGLE_COMPLETE_URL}?coco-super-token={access_token}`                   |
-| Invalid authorization code             | `{GOOGLE_COMPLETE_URL}?coco-error=invalid_authorization_code`             |
-| Failed to get user info                | `{GOOGLE_COMPLETE_URL}?coco-error=failed_to_get_user_info`                |
-| No email provided                      | `{GOOGLE_COMPLETE_URL}?coco-error=no_email_provided`                      |
-| Email already registered with password | `{GOOGLE_COMPLETE_URL}?coco-error=email_already_registered_with_password` |
-| Database error                         | `{GOOGLE_COMPLETE_URL}?coco-error=database_error`                         |
-| Authentication failed                  | `{GOOGLE_COMPLETE_URL}?coco-error=authentication_failed`                  |
-
-## User Flow
-
-1. **User clicks "Sign in with Google"** → Your app calls `/login-google`
-2. **User is redirected to Google** → User authenticates with Google
-3. **Google redirects back** → User is sent to `/auth-google-redirect/{project_id}` with authorization code
-4. **Server processes authentication** → Exchanges code for user info
-5. **User is created or logged in** → Redirected to `GOOGLE_COMPLETE_URL` with token or error
-
-## User Management
-
-### New Users
-
-When a user signs in with Google for the first time:
-
-- A new `AppUser` record is created
-- `oauth_id` is set to Google's user ID (`sub` field)
-- `email` is set from Google profile
-- `password` is set to the email (for internal use)
-- `data.username` is generated from Google name or falls back to truncated user ID
-
-### Existing Users
-
-For users who already exist in the system:
-
-- **OAuth users**: Successfully logged in with new token
-- **Password users**: Prevented from using OAuth (returns error)
-
-## Error Handling
-
-The system handles various error scenarios gracefully:
-
-### Client-Side Error Handling
-
-```javascript
-// Handle the callback on your complete page
-const urlParams = new URLSearchParams(window.location.search);
-const token = urlParams.get("coco-super-token");
-const error = urlParams.get("coco-error");
-
-if (token) {
-  // Store token and proceed with authenticated flow
-  localStorage.setItem("auth_token", token);
-  // Redirect to dashboard or main app
-} else if (error) {
-  // Handle specific errors
-  switch (error) {
-    case "email_already_registered_with_password":
-      alert("This email is already registered. Please use password login.");
-      break;
-    case "invalid_authorization_code":
-      alert("Authentication failed. Please try again.");
-      break;
-    // Handle other error cases
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer",
+  "user": {
+    "id": "user-123",
+    "email": "user@example.com",
+    "data": {},
+    "created_at": "2025-11-04T10:00:00Z"
   }
 }
 ```
 
-## Security Considerations
+#### 2. User Login
 
-- **Email Validation**: Only users with verified Google emails can authenticate
-- **OAuth ID Verification**: Users are linked to their Google account via `oauth_id`
-- **Mixed Authentication Prevention**: Users who registered with passwords cannot use OAuth
-- **Token Security**: Access tokens are generated securely for authenticated users
-
-## Implementation Example
-
-### Frontend Integration
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Google OAuth Login</title>
-  </head>
-  <body>
-    <button id="googleLogin">Sign in with Google</button>
-
-    <script>
-      document
-        .getElementById("googleLogin")
-        .addEventListener("click", async () => {
-          try {
-            const response = await fetch("/login-google");
-            const data = await response.json();
-            window.location.href = data.url;
-          } catch (error) {
-            console.error("Login failed:", error);
-          }
-        });
-    </script>
-  </body>
-</html>
+```bash
+curl -X POST "https://api.cocobase.buzz/api/auth-collections/login" \
+  -H "x-api-key: your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "securepass123"
+  }'
 ```
 
-### Completion Page Handler
+---
+
+## Authentication Flow
+
+### Client-Side (Browser/Mobile)
 
 ```javascript
-// On your GOOGLE_COMPLETE_URL page
-function handleAuthCallback() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("coco-super-token");
-  const error = urlParams.get("error");
-
-  if (token) {
-    // Success - store token and redirect
-    sessionStorage.setItem("auth_token", token);
-    // OR if you are using the cocobase package simply set the cocobase auth token
-    window.location.href = "/dashboard";
-  } else if (error) {
-    // Handle error
-    displayError(error);
+// 1. User signs up
+const signupRes = await fetch(
+  "https://api.cocobase.buzz/api/auth-collections/signup",
+  {
+    method: "POST",
+    headers: {
+      "x-api-key": "your-api-key",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: "user@example.com",
+      password: "securepass123",
+    }),
   }
-}
+);
 
-// Call on page load
-handleAuthCallback();
+const { access_token, user } = await signupRes.json();
+
+// 2. Store token (localStorage, secure storage, etc.)
+localStorage.setItem("token", access_token);
+
+// 3. Use token for authenticated requests
+const userRes = await fetch(
+  "https://api.cocobase.buzz/api/auth-collections/user",
+  {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  }
+);
 ```
 
-## Troubleshooting
+### Server-Side (Node.js, Python, etc.)
 
-### Common Issues
+```javascript
+// Use API key for admin operations
+const collections = await fetch("https://api.cocobase.buzz/api/collections", {
+  headers: {
+    "x-api-key": process.env.COCOBASE_API_KEY,
+  },
+});
+```
 
-1. **"GOOGLE_CLIENT_ID key missing"**
+---
 
-   - Ensure you've added the client ID to your project configuration
+## Token Lifecycle
 
-2. **"GOOGLE_REDIRECT_URL key missing"**
+### Token Expiration
 
-   - Verify the redirect URL is configured and matches Google Console settings
+- **Access Tokens**: Valid for 30 days
+- **Refresh Tokens**: Coming soon
 
-3. **"Invalid authorization code"**
+### Token Refresh
 
-   - Check that your redirect URI exactly matches the one registered in Google Console
+Token refresh endpoint coming soon. For now, users need to re-login after 30 days.
 
-4. **"Email already registered with password"**
+### Token Revocation
 
-   - User must use regular password login instead of OAuth
+Logout endpoint coming soon. For now, simply delete the token from storage.
 
-5. **"Failed to get user info"**
-   - Verify your Google+ API is enabled and credentials are correct
+---
 
-### Debug Tips
+## Permission Levels
 
-- Check server logs for detailed error messages
-- Verify all configuration keys are properly set
-- Ensure the CocoBase redirect URL (from your console) is added to Google Cloud Console authorized redirect URIs
-- Test with different Google accounts to verify the flow
+### API Key (Admin Access)
+
+- ✅ Create/delete collections
+- ✅ Manage all documents
+- ✅ List all users
+- ✅ Admin operations
+
+### User Token (User Access)
+
+- ✅ Read public documents
+- ✅ Create/update own documents (if permitted)
+- ✅ Read/update own profile
+- ❌ Cannot access other users' data
+- ❌ Cannot create collections
+
+---
+
+## Security Best Practices
+
+### ✅ DO:
+
+- Store API keys in environment variables
+- Use HTTPS for all requests
+- Implement token refresh
+- Set short token expiration times
+- Validate tokens on every request
+
+### ❌ DON'T:
+
+- Expose API keys in client-side code
+- Store tokens in localStorage (use httpOnly cookies for web)
+- Share API keys across projects
+- Commit API keys to version control
+- Use API keys for user authentication
+
+---
+
+## Error Responses
+
+### 401 Unauthorized
+
+```json
+{
+  "detail": "Invalid API key"
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "detail": "Insufficient permissions"
+}
+```
+
+### Missing Authentication
+
+```json
+{
+  "detail": "Authentication required"
+}
+```
+
+---
+
+## CORS Configuration
+
+Configure allowed origins in your project settings:
+
+```javascript
+// Allowed origins
+["https://yourapp.com", "http://localhost:3000"];
+```
+
+---
+
+## Testing Authentication
+
+### Test API Key
+
+```bash
+curl -X GET "https://api.cocobase.buzz/api/collections" \
+  -H "x-api-key: your-api-key" \
+  -w "\nStatus: %{http_code}\n"
+```
+
+**Success:** Status 200  
+**Failure:** Status 401
+
+### Test User Token
+
+```bash
+curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
+  -H "Authorization: Bearer your-token" \
+  -w "\nStatus: %{http_code}\n"
+```
+
+**Success:** Status 200  
+**Failure:** Status 401

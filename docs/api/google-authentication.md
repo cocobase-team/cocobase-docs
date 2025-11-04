@@ -1,5 +1,12 @@
+
 ---
-sidebar_position: 2
+sidebar_position: 5
+title: "Google OAuth"
+---
+
+# Google OAuth Authentication
+
+This feature allows your application users to sign in using their Google accountsebar_position: 2
 ---
 
 # Google OAuth Authentication
@@ -40,11 +47,9 @@ Add the following configuration keys to your project config:
 }
 ```
 
-You can fing project settings on the side navigation under the settings drop down
+You can find project settings on the side navigation under the settings drop down.
 
-![Daily Journal Screenshot](side-nav.png)
-
-### Configuration Parameters
+## Configuration Parameters
 
 | Parameter              | Type   | Required | Description                                                  |
 | ---------------------- | ------ | -------- | ------------------------------------------------------------ |
