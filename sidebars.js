@@ -35,21 +35,6 @@ const sidebars = {
 
     {
       type: "category",
-      label: "🐍 Python SDK",
-      collapsed: false,
-      items: [
-        "python/introduction",
-        "python/client-setup",
-        "python/authentication",
-        "python/collections",
-        "python/document",
-        "python/record",
-        "python/query-builder",
-      ],
-    },
-
-    {
-      type: "category",
       label: "🎯 Dart SDK",
       collapsed: false,
       items: [
@@ -102,8 +87,10 @@ const sidebars = {
       collapsed: false,
       items: [
         "cloud-functions/introduction",
-        "cloud-functions/database",
-        "cloud-functions/deployment",
+        "cloud-functions/database-api",
+        "cloud-functions/cloud-function-environment",
+        "cloud-functions/quick-reference",
+        "cloud-functions/examples",
       ],
     },
 
