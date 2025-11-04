@@ -1,4 +1,3 @@
-
 ---
 sidebar_position: 3
 title: "Collections API"
@@ -8,7 +7,7 @@ title: "Collections API"
 
 Collections are dynamic data storage containers. Think of them as tables in a traditional database, but with flexible schemas.
 
-**Base URL:** `https://api.cocobase.buzz/api/collections`
+**Base URL:** `https://api.cocobase.buzz/collections`
 
 **Authentication:** Requires `x-api-key` header
 
@@ -36,13 +35,13 @@ Get all collections in your project.
 ### Endpoint
 
 ```http
-GET /api/collections
+GET /collections
 ```
 
 ### Request
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/collections" \
+curl -X GET "https://api.cocobase.buzz/collections" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -72,13 +71,13 @@ Get information about a specific collection.
 ### Endpoint
 
 ```http
-GET /api/collections/{collection_name}
+GET /collections/{collection_name}
 ```
 
 ### Request
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/collections/products" \
+curl -X GET "https://api.cocobase.buzz/collections/products" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -102,13 +101,13 @@ Add a new document to a collection. Supports JSON data and file uploads.
 ### Endpoint
 
 ```http
-POST /api/collections/{collection_name}
+POST /collections/{collection_name}
 ```
 
 ### Basic Creation (JSON)
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/collections/products" \
+curl -X POST "https://api.cocobase.buzz/collections/products" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -123,7 +122,7 @@ curl -X POST "https://api.cocobase.buzz/api/collections/products" \
 ### With File Uploads
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/collections/products" \
+curl -X POST "https://api.cocobase.buzz/collections/products" \
   -H "x-api-key: your-api-key" \
   -F 'data={"name":"Laptop","price":999.99}' \
   -F "image=@laptop.jpg" \
@@ -135,7 +134,7 @@ curl -X POST "https://api.cocobase.buzz/api/collections/products" \
 ```javascript
 // Basic creation
 const response = await fetch(
-  "https://api.cocobase.buzz/api/collections/products",
+  "https://api.cocobase.buzz/collections/products",
   {
     method: "POST",
     headers: {
@@ -163,7 +162,7 @@ formData.append("image", imageFile);
 formData.append("manual", pdfFile);
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/collections/products",
+  "https://api.cocobase.buzz/collections/products",
   {
     method: "POST",
     headers: {
@@ -203,13 +202,13 @@ Query documents from a collection with filtering, sorting, and pagination.
 ### Endpoint
 
 ```http
-GET /api/collections/{collection_name}/documents
+GET /collections/{collection_name}/documents
 ```
 
 ### Basic Query
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -217,15 +216,15 @@ curl -X GET "https://api.cocobase.buzz/api/collections/products/documents" \
 
 ```bash
 # Filter by exact match
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?category_eq=electronics" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?category_eq=electronics" \
   -H "x-api-key: your-api-key"
 
 # Filter by price range
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?price_gte=500&price_lte=1500" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?price_gte=500&price_lte=1500" \
   -H "x-api-key: your-api-key"
 
 # Filter by text search
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?name_contains=laptop" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?name_contains=laptop" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -233,11 +232,11 @@ curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?name_c
 
 ```bash
 # Sort by price (ascending)
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?sort_by=price&sort_order=asc" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?sort_by=price&sort_order=asc" \
   -H "x-api-key: your-api-key"
 
 # Sort by created_at (descending)
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?sort_by=created_at&sort_order=desc" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?sort_by=created_at&sort_order=desc" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -245,11 +244,11 @@ curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?sort_b
 
 ```bash
 # Get 20 items per page
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?limit=20&offset=0" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?limit=20&offset=0" \
   -H "x-api-key: your-api-key"
 
 # Get page 2
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?limit=20&offset=20" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?limit=20&offset=20" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -285,13 +284,13 @@ Get a single document by ID.
 ### Endpoint
 
 ```http
-GET /api/collections/{collection_name}/documents/{document_id}
+GET /collections/{collection_name}/documents/{document_id}
 ```
 
 ### Request
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents/doc_xyz789" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -321,13 +320,13 @@ Update an existing document. Supports partial updates and file uploads.
 ### Endpoint
 
 ```http
-PUT /api/collections/{collection_name}/documents/{document_id}
+PUT /collections/{collection_name}/documents/{document_id}
 ```
 
 ### Basic Update (JSON)
 
 ```bash
-curl -X PUT "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789" \
+curl -X PUT "https://api.cocobase.buzz/collections/products/documents/doc_xyz789" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -339,7 +338,7 @@ curl -X PUT "https://api.cocobase.buzz/api/collections/products/documents/doc_xy
 ### With File Uploads
 
 ```bash
-curl -X PUT "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789" \
+curl -X PUT "https://api.cocobase.buzz/collections/products/documents/doc_xyz789" \
   -H "x-api-key: your-api-key" \
   -F 'data={"price":899.99}' \
   -F "image=@new_laptop_image.jpg"
@@ -350,7 +349,7 @@ curl -X PUT "https://api.cocobase.buzz/api/collections/products/documents/doc_xy
 ```javascript
 // Basic update
 const response = await fetch(
-  "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789",
+  "https://api.cocobase.buzz/collections/products/documents/doc_xyz789",
   {
     method: "PUT",
     headers: {
@@ -370,7 +369,7 @@ formData.append("data", JSON.stringify({ price: 899.99 }));
 formData.append("image", newImageFile);
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789",
+  "https://api.cocobase.buzz/collections/products/documents/doc_xyz789",
   {
     method: "PUT",
     headers: {
@@ -408,13 +407,13 @@ Delete a document from a collection.
 ### Endpoint
 
 ```http
-DELETE /api/collections/{collection_name}/documents/{document_id}
+DELETE /collections/{collection_name}/documents/{document_id}
 ```
 
 ### Request
 
 ```bash
-curl -X DELETE "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789" \
+curl -X DELETE "https://api.cocobase.buzz/collections/products/documents/doc_xyz789" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -465,7 +464,7 @@ curl -X DELETE "https://api.cocobase.buzz/api/collections/products/documents/doc
 
 ```bash
 # Skip count calculation (faster for large datasets)
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?offset=20&count=false" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?offset=20&count=false" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -479,7 +478,7 @@ Link documents across collections using relationship fields.
 
 ```bash
 # Create product with category relationship
-curl -X POST "https://api.cocobase.buzz/api/collections/products" \
+curl -X POST "https://api.cocobase.buzz/collections/products" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -492,7 +491,7 @@ curl -X POST "https://api.cocobase.buzz/api/collections/products" \
 
 ```bash
 # Get product with category details
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?populate=category" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?populate=category" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -523,7 +522,7 @@ curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?popula
 
 ```bash
 # Get products where category name is "Electronics"
-curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?category.name_eq=Electronics&populate=category" \
+curl -X GET "https://api.cocobase.buzz/collections/products/documents?category.name_eq=Electronics&populate=category" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -541,7 +540,7 @@ curl -X GET "https://api.cocobase.buzz/api/collections/products/documents?catego
 ### Upload Multiple Files
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/collections/products" \
+curl -X POST "https://api.cocobase.buzz/collections/products" \
   -H "x-api-key: your-api-key" \
   -F 'data={"name":"Laptop","price":999.99}' \
   -F "image=@laptop.jpg" \
@@ -570,7 +569,7 @@ curl -X POST "https://api.cocobase.buzz/api/collections/products" \
 
 ```bash
 # Old image is automatically deleted
-curl -X PUT "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789" \
+curl -X PUT "https://api.cocobase.buzz/collections/products/documents/doc_xyz789" \
   -H "x-api-key: your-api-key" \
   -F "image=@new_laptop_image.jpg"
 ```
@@ -597,7 +596,7 @@ const products = [
 ];
 
 for (const product of products) {
-  await fetch("https://api.cocobase.buzz/api/collections/products", {
+  await fetch("https://api.cocobase.buzz/collections/products", {
     method: "POST",
     headers: {
       "x-api-key": "your-api-key",
@@ -609,7 +608,7 @@ for (const product of products) {
 
 // 2. Query products
 const response = await fetch(
-  "https://api.cocobase.buzz/api/collections/products/documents?" +
+  "https://api.cocobase.buzz/collections/products/documents?" +
     "category_eq=electronics&" +
     "price_lte=1000&" +
     "sort_by=price&" +
@@ -623,7 +622,7 @@ const { documents, total } = await response.json();
 
 // 3. Update stock
 await fetch(
-  "https://api.cocobase.buzz/api/collections/products/documents/doc_xyz789",
+  "https://api.cocobase.buzz/collections/products/documents/doc_xyz789",
   {
     method: "PUT",
     headers: {
@@ -653,7 +652,7 @@ formData.append("featured_image", imageFile);
 formData.append("thumbnail", thumbnailFile);
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/collections/blog_posts",
+  "https://api.cocobase.buzz/collections/blog_posts",
   {
     method: "POST",
     headers: {
@@ -665,7 +664,7 @@ const response = await fetch(
 
 // Query published posts
 const posts = await fetch(
-  "https://api.cocobase.buzz/api/collections/blog_posts/documents?" +
+  "https://api.cocobase.buzz/collections/blog_posts/documents?" +
     "published_eq=true&" +
     "sort_by=created_at&" +
     "sort_order=desc&" +

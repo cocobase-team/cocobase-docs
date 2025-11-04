@@ -1,4 +1,3 @@
-
 ---
 sidebar_position: 2
 title: "Authentication"
@@ -25,7 +24,7 @@ x-api-key: your-project-api-key
 ### Example
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/collections" \
+curl -X GET "https://api.cocobase.buzz/collections" \
   -H "x-api-key: pk_1234567890abcdef"
 ```
 
@@ -52,7 +51,7 @@ Authorization: Bearer user-jwt-token
 ### Example
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
@@ -61,7 +60,7 @@ curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
 #### 1. User Signup
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/signup" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -88,7 +87,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
 #### 2. User Login
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/login" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/login" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -106,7 +105,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/login" \
 ```javascript
 // 1. User signs up
 const signupRes = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/signup",
+  "https://api.cocobase.buzz/auth-collections/signup",
   {
     method: "POST",
     headers: {
@@ -127,7 +126,7 @@ localStorage.setItem("token", access_token);
 
 // 3. Use token for authenticated requests
 const userRes = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/user",
+  "https://api.cocobase.buzz/auth-collections/user",
   {
     headers: {
       Authorization: `Bearer ${access_token}`,
@@ -140,7 +139,7 @@ const userRes = await fetch(
 
 ```javascript
 // Use API key for admin operations
-const collections = await fetch("https://api.cocobase.buzz/api/collections", {
+const collections = await fetch("https://api.cocobase.buzz/collections", {
   headers: {
     "x-api-key": process.env.COCOBASE_API_KEY,
   },
@@ -249,7 +248,7 @@ Configure allowed origins in your project settings:
 ### Test API Key
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/collections" \
+curl -X GET "https://api.cocobase.buzz/collections" \
   -H "x-api-key: your-api-key" \
   -w "\nStatus: %{http_code}\n"
 ```
@@ -260,7 +259,7 @@ curl -X GET "https://api.cocobase.buzz/api/collections" \
 ### Test User Token
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer your-token" \
   -w "\nStatus: %{http_code}\n"
 ```

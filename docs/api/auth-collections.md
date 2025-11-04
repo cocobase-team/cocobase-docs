@@ -1,4 +1,3 @@
-
 ---
 sidebar_position: 4
 title: "Auth Collections API"
@@ -8,7 +7,7 @@ title: "Auth Collections API"
 
 Manage authenticated users in your application. Auth Collections provide user signup, login, profile management, and user querying.
 
-**Base URL:** `https://api.cocobase.buzz/api/auth-collections`
+**Base URL:** `https://api.cocobase.buzz/auth-collections`
 
 **Authentication:**
 
@@ -37,7 +36,7 @@ Register a new user account.
 ### Endpoint
 
 ```http
-POST /api/auth-collections/signup
+POST /auth-collections/signup
 ```
 
 ### Authentication
@@ -47,7 +46,7 @@ Requires `x-api-key` header
 ### Basic Signup
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/signup" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -59,7 +58,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
 ### Signup with Profile Data
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/signup" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -74,7 +73,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
 ### Signup with File Upload (Profile Picture)
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/signup" \
   -H "x-api-key: your-api-key" \
   -F 'data={"email":"user@example.com","password":"securepass123","name":"John Doe"}' \
   -F "profile_picture=@avatar.jpg"
@@ -85,7 +84,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
 ```javascript
 // Basic signup
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/signup",
+  "https://api.cocobase.buzz/auth-collections/signup",
   {
     method: "POST",
     headers: {
@@ -119,7 +118,7 @@ formData.append(
 formData.append("profile_picture", profileImageFile);
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/signup",
+  "https://api.cocobase.buzz/auth-collections/signup",
   {
     method: "POST",
     headers: {
@@ -165,7 +164,7 @@ Authenticate an existing user.
 ### Endpoint
 
 ```http
-POST /api/auth-collections/login
+POST /auth-collections/login
 ```
 
 ### Authentication
@@ -175,7 +174,7 @@ Requires `x-api-key` header
 ### Request
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/login" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/login" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -188,7 +187,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/login" \
 
 ```javascript
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/login",
+  "https://api.cocobase.buzz/auth-collections/login",
   {
     method: "POST",
     headers: {
@@ -252,7 +251,7 @@ Get the authenticated user's profile.
 ### Endpoint
 
 ```http
-GET /api/auth-collections/user
+GET /auth-collections/user
 ```
 
 ### Authentication
@@ -262,7 +261,7 @@ Requires `Authorization: Bearer <token>` header
 ### Request
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
@@ -272,7 +271,7 @@ curl -X GET "https://api.cocobase.buzz/api/auth-collections/user" \
 const token = localStorage.getItem("token");
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/user",
+  "https://api.cocobase.buzz/auth-collections/user",
   {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -309,7 +308,7 @@ Update the authenticated user's profile data.
 ### Endpoint
 
 ```http
-PUT /api/auth-collections/user
+PUT /auth-collections/user
 ```
 
 ### Authentication
@@ -319,7 +318,7 @@ Requires `Authorization: Bearer <token>` header
 ### Update Profile Data (JSON)
 
 ```bash
-curl -X PUT "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X PUT "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer your-token" \
   -H "Content-Type: application/json" \
   -d '{
@@ -332,7 +331,7 @@ curl -X PUT "https://api.cocobase.buzz/api/auth-collections/user" \
 ### Update with File Upload
 
 ```bash
-curl -X PUT "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X PUT "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer your-token" \
   -F 'data={"name":"John Smith","bio":"Software developer"}' \
   -F "profile_picture=@new_avatar.jpg"
@@ -345,7 +344,7 @@ const token = localStorage.getItem("token");
 
 // Update profile data
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/user",
+  "https://api.cocobase.buzz/auth-collections/user",
   {
     method: "PUT",
     headers: {
@@ -365,7 +364,7 @@ formData.append("data", JSON.stringify({ name: "John Smith" }));
 formData.append("profile_picture", newAvatarFile);
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/user",
+  "https://api.cocobase.buzz/auth-collections/user",
   {
     method: "PUT",
     headers: {
@@ -408,7 +407,7 @@ Get all users in your project. Admin endpoint using API key.
 ### Endpoint
 
 ```http
-GET /api/auth-collections/users
+GET /auth-collections/users
 ```
 
 ### Authentication
@@ -418,14 +417,14 @@ Requires `x-api-key` header
 ### Basic Query
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users" \
   -H "x-api-key: your-api-key"
 ```
 
 ### With Pagination
 
 ```bash
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?limit=20&offset=0" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?limit=20&offset=0" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -460,15 +459,15 @@ Advanced user querying with filters, sorting, and relationships.
 
 ```bash
 # Users in San Francisco
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?city_eq=San Francisco" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?city_eq=San Francisco" \
   -H "x-api-key: your-api-key"
 
 # Users aged 25-35
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?age_gte=25&age_lte=35" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?age_gte=25&age_lte=35" \
   -H "x-api-key: your-api-key"
 
 # Users with name containing "John"
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?name_contains=John" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?name_contains=John" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -476,11 +475,11 @@ curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?name_contains=
 
 ```bash
 # Specific email
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?email_eq=user@example.com" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?email_eq=user@example.com" \
   -H "x-api-key: your-api-key"
 
 # Email domain
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?email_contains=@example.com" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?email_contains=@example.com" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -488,11 +487,11 @@ curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?email_contains
 
 ```bash
 # Sort by created_at (newest first)
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?sort_by=created_at&sort_order=desc" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?sort_by=created_at&sort_order=desc" \
   -H "x-api-key: your-api-key"
 
 # Sort by name
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?sort_by=name&sort_order=asc" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?sort_by=name&sort_order=asc" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -521,7 +520,7 @@ Create relationships between users (referrals, follows, etc.).
 
 ```bash
 # User referred by another user
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/signup" \
   -H "x-api-key: your-api-key" \
   -H "Content-Type: application/json" \
   -d '{
@@ -536,7 +535,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
 
 ```bash
 # Get users and populate their referrer
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?populate=referred_by" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?populate=referred_by" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -568,19 +567,19 @@ curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?populate=refer
 
 ```bash
 # Users referred by specific user
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?referred_by_id_eq=user_abc123&populate=referred_by" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?referred_by_id_eq=user_abc123&populate=referred_by" \
   -H "x-api-key: your-api-key"
 
 # Users referred by someone with specific email
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?referred_by.email_eq=referrer@example.com&populate=referred_by" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?referred_by.email_eq=referrer@example.com&populate=referred_by" \
   -H "x-api-key: your-api-key"
 
 # Users who were referred (not null)
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?referred_by_id_isnull=false" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?referred_by_id_isnull=false" \
   -H "x-api-key: your-api-key"
 
 # Users who were NOT referred (null)
-curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?referred_by_id_isnull=true" \
+curl -X GET "https://api.cocobase.buzz/auth-collections/users?referred_by_id_isnull=true" \
   -H "x-api-key: your-api-key"
 ```
 
@@ -591,7 +590,7 @@ curl -X GET "https://api.cocobase.buzz/api/auth-collections/users?referred_by_id
 ```javascript
 // Get all users referred by a specific user
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/users?" +
+  "https://api.cocobase.buzz/auth-collections/users?" +
     "referred_by_id_eq=user_abc123&" +
     "populate=referred_by",
   {
@@ -608,7 +607,7 @@ console.log(`User has ${total} referrals`);
 
 ```javascript
 // User follows another user (store in profile data)
-await fetch("https://api.cocobase.buzz/api/auth-collections/user", {
+await fetch("https://api.cocobase.buzz/auth-collections/user", {
   method: "PUT",
   headers: {
     Authorization: `Bearer ${token}`,
@@ -621,7 +620,7 @@ await fetch("https://api.cocobase.buzz/api/auth-collections/user", {
 
 // Query users I'm following
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/users?" +
+  "https://api.cocobase.buzz/auth-collections/users?" +
     "id_in=user_abc123,user_def456",
   {
     headers: { "x-api-key": "your-api-key" },
@@ -644,7 +643,7 @@ Upload profile pictures, documents, and other files to user profiles.
 ### Upload Profile Picture
 
 ```bash
-curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
+curl -X POST "https://api.cocobase.buzz/auth-collections/signup" \
   -H "x-api-key: your-api-key" \
   -F 'data={"email":"user@example.com","password":"pass123","name":"John"}' \
   -F "profile_picture=@avatar.jpg"
@@ -653,7 +652,7 @@ curl -X POST "https://api.cocobase.buzz/api/auth-collections/signup" \
 ### Upload Multiple Files
 
 ```bash
-curl -X PUT "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X PUT "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer your-token" \
   -F 'data={"name":"John Doe"}' \
   -F "profile_picture=@avatar.jpg" \
@@ -677,7 +676,7 @@ formData.append("cover_photo", coverImageFile);
 formData.append("resume", resumeFile);
 
 const response = await fetch(
-  "https://api.cocobase.buzz/api/auth-collections/user",
+  "https://api.cocobase.buzz/auth-collections/user",
   {
     method: "PUT",
     headers: {
@@ -708,7 +707,7 @@ const response = await fetch(
 
 ```bash
 # Old profile picture is automatically deleted
-curl -X PUT "https://api.cocobase.buzz/api/auth-collections/user" \
+curl -X PUT "https://api.cocobase.buzz/auth-collections/user" \
   -H "Authorization: Bearer your-token" \
   -F "profile_picture=@new_avatar.jpg"
 ```
@@ -723,7 +722,7 @@ curl -X PUT "https://api.cocobase.buzz/api/auth-collections/user" \
 // 1. User signs up
 async function signup(email, password, userData) {
   const response = await fetch(
-    "https://api.cocobase.buzz/api/auth-collections/signup",
+    "https://api.cocobase.buzz/auth-collections/signup",
     {
       method: "POST",
       headers: {
@@ -746,7 +745,7 @@ async function signup(email, password, userData) {
 // 2. User logs in
 async function login(email, password) {
   const response = await fetch(
-    "https://api.cocobase.buzz/api/auth-collections/login",
+    "https://api.cocobase.buzz/auth-collections/login",
     {
       method: "POST",
       headers: {
@@ -766,7 +765,7 @@ async function login(email, password) {
 async function getCurrentUser() {
   const token = localStorage.getItem("token");
   const response = await fetch(
-    "https://api.cocobase.buzz/api/auth-collections/user",
+    "https://api.cocobase.buzz/auth-collections/user",
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -780,7 +779,7 @@ async function getCurrentUser() {
 async function updateProfile(data) {
   const token = localStorage.getItem("token");
   const response = await fetch(
-    "https://api.cocobase.buzz/api/auth-collections/user",
+    "https://api.cocobase.buzz/auth-collections/user",
     {
       method: "PUT",
       headers: {
@@ -801,7 +800,7 @@ async function updateProfile(data) {
 async function listUsers(filters = {}) {
   const params = new URLSearchParams(filters);
   const response = await fetch(
-    `https://api.cocobase.buzz/api/auth-collections/users?${params}`,
+    `https://api.cocobase.buzz/auth-collections/users?${params}`,
     {
       headers: { "x-api-key": "your-api-key" },
     }
@@ -832,7 +831,7 @@ const referredUsers = await listUsers({
 // Sign up with referral code
 async function signupWithReferral(email, password, referrerId) {
   const response = await fetch(
-    "https://api.cocobase.buzz/api/auth-collections/signup",
+    "https://api.cocobase.buzz/auth-collections/signup",
     {
       method: "POST",
       headers: {
@@ -852,7 +851,7 @@ async function signupWithReferral(email, password, referrerId) {
 // Get user's referrals
 async function getUserReferrals(userId) {
   const response = await fetch(
-    `https://api.cocobase.buzz/api/auth-collections/users?` +
+    `https://api.cocobase.buzz/auth-collections/users?` +
       `referred_by_id_eq=${userId}&` +
       `populate=referred_by`,
     {
@@ -885,16 +884,16 @@ async function getTopReferrers() {
 
 ```bash
 # Slow (counts all users)
-curl "https://api.cocobase.buzz/api/auth-collections/users?offset=1000"
+curl "https://api.cocobase.buzz/auth-collections/users?offset=1000"
 
 # Fast (skips count)
-curl "https://api.cocobase.buzz/api/auth-collections/users?offset=1000&count=false"
+curl "https://api.cocobase.buzz/auth-collections/users?offset=1000&count=false"
 
 # Very slow (populates all relationships)
-curl "https://api.cocobase.buzz/api/auth-collections/users?populate=*"
+curl "https://api.cocobase.buzz/auth-collections/users?populate=*"
 
 # Fast (populates only needed)
-curl "https://api.cocobase.buzz/api/auth-collections/users?populate=referred_by"
+curl "https://api.cocobase.buzz/auth-collections/users?populate=referred_by"
 ```
 
 ---

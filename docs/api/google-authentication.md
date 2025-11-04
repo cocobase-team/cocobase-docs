@@ -1,4 +1,3 @@
-
 ---
 sidebar_position: 5
 title: "Google OAuth"
@@ -6,8 +5,7 @@ title: "Google OAuth"
 
 # Google OAuth Authentication
 
-This feature allows your application users to sign in using their Google accountsebar_position: 2
----
+## This feature allows your application users to sign in using their Google accountsebar_position: 2
 
 # Google OAuth Authentication
 
