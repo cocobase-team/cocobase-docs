@@ -90,6 +90,8 @@ const sidebars = {
         "cloud-functions/database-api",
         "cloud-functions/cloud-function-environment",
         "cloud-functions/quick-reference",
+        "cloud-functions/intellisense-quickstart",
+        "cloud-functions/intellisense-integration",
         "cloud-functions/examples",
       ],
     },

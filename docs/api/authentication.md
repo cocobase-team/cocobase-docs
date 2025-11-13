@@ -1,8 +1,3 @@
----
-sidebar_position: 2
-title: "Authentication"
----
-
 # Authentication
 
 All API requests require authentication using either an API key or user token.
@@ -125,14 +120,11 @@ const { access_token, user } = await signupRes.json();
 localStorage.setItem("token", access_token);
 
 // 3. Use token for authenticated requests
-const userRes = await fetch(
-  "https://api.cocobase.buzz/auth-collections/user",
-  {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  }
-);
+const userRes = await fetch("https://api.cocobase.buzz/auth-collections/user", {
+  headers: {
+    Authorization: `Bearer ${access_token}`,
+  },
+});
 ```
 
 ### Server-Side (Node.js, Python, etc.)

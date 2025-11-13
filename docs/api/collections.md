@@ -1,8 +1,3 @@
----
-sidebar_position: 3
-title: "Collections API"
----
-
 # Collections API
 
 Collections are dynamic data storage containers. Think of them as tables in a traditional database, but with flexible schemas.

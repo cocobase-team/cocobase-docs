@@ -1,8 +1,3 @@
----
-sidebar_position: 4
-title: "Auth Collections API"
----
-
 # Auth Collections API
 
 Manage authenticated users in your application. Auth Collections provide user signup, login, profile management, and user querying.
