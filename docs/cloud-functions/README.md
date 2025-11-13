@@ -1,31 +1,16 @@
 # Cloud Functions Documentation
 
-> **Comprehensive documentation for CocoBase Cloud Functions**
+> **Comprehensive documentation for CocoBase Cloud Functions Database API**
 
-Build powerful serverless backend logic with Python, advanced database queries, and dynamic HTML rendering.
-
----
-
-## 📚 Documentation Structure
-
-### 1. [Introduction](./introduction.md)
-
-**Getting Started** - Overview and basic concepts
-
-- ✅ What are Cloud Functions
-- ✅ Key features and capabilities
-- ✅ Available objects (request, db, render, env)
-- ✅ Common use cases
-- ✅ Response types
-- ✅ Security basics
-
-**Perfect for:** First-time users
+This documentation is designed for **Docusaurus** and provides a complete guide to querying and managing data in your cloud functions.
 
 ---
 
-### 2. [Database API](./database-api.md)
+## 📚 Documentation Files
 
-**Complete Database Reference** - Advanced querying and data management
+### 1. [database-api.md](./database-api.md)
+
+**Main reference** - Complete guide to the Database API
 
 - ✅ Query operations (query, find_one, query_users, find_user)
 - ✅ Comparison operators (12+ operators)
@@ -36,28 +21,13 @@ Build powerful serverless backend logic with Python, advanced database queries, 
 - ✅ Best practices
 - ✅ Complete API reference
 
-**Perfect for:** Learning the database system in depth
+**Perfect for:** Learning the system from scratch
 
 ---
 
-### 3. [Cloud Function Environment](./cloud-function-environment.md)
+### 2. [quick-reference.md](./quick-reference.md)
 
-**Execution Environment** - Request/response handling
-
-- ✅ Function execution (GET/POST)
-- ✅ Request object (payload, query params, headers)
-- ✅ Response types (JSON, HTML, string)
-- ✅ Template rendering with Jinja2
-- ✅ Authentication and user access
-- ✅ Complete environment reference
-
-**Perfect for:** Understanding the runtime environment
-
----
-
-### 4. [Quick Reference](./quick-reference.md)
-
-**Cheat Sheet** - Quick lookup for common patterns
+**Cheat sheet** - Quick lookup for common patterns
 
 - ✅ All operators at a glance
 - ✅ Boolean logic examples
@@ -70,9 +40,24 @@ Build powerful serverless backend logic with Python, advanced database queries, 
 
 ---
 
-### 5. [Examples](./examples.md)
+### 3. [cloud-function-environment.md](./cloud-function-environment.md)
 
-**Real-World Examples** - Complete working code
+**Execution environment** - Request/response handling
+
+- ✅ Function execution (GET/POST)
+- ✅ Request object (payload, query params, headers)
+- ✅ Response types (JSON, HTML, string)
+- ✅ Template rendering with Jinja2
+- ✅ Authentication and user access
+- ✅ Complete environment reference
+
+**Perfect for:** Understanding how cloud functions work
+
+---
+
+### 4. [examples.md](./examples.md)
+
+**Real-world examples** - Complete working code
 
 - ✅ E-commerce (products, cart, orders)
 - ✅ Social media (feed, profile, follow/unfollow)
@@ -81,8 +66,6 @@ Build powerful serverless backend logic with Python, advanced database queries, 
 - ✅ Analytics (dashboards, popular content)
 
 **Perfect for:** Copy-paste starting points
-
----
 
 ---
 
@@ -134,14 +117,61 @@ posts = db.get_user_collections("user-123", "posts", limit=20)
 
 ---
 
-## 📖 Documentation Structure
+## 📖 Using with Docusaurus
 
-The Cloud Functions documentation is organized as follows:
+### Installation
+
+1. Copy these files to your Docusaurus `docs` folder:
+
+```bash
+cp docs/*.md /path/to/docusaurus/docs/cloud-functions/
+```
+
+2. Update `sidebars.js`:
+
+```javascript
+module.exports = {
+  docs: [
+    {
+      type: "category",
+      label: "Cloud Functions",
+      items: [
+        "cloud-functions/database-api",
+        "cloud-functions/cloud-function-environment",
+        "cloud-functions/quick-reference",
+        "cloud-functions/examples",
+      ],
+    },
+  ],
+};
+```
+
+3. The files already have front matter for Docusaurus:
+
+```yaml
+---
+sidebar_position: 1
+---
+```
+
+---
+
+## 🎯 Code Examples Location
+
+Find ready-to-use code examples:
+
+- **Collection queries**: `examples/advanced_query_examples.py`
+- **User relationships**: `examples/user_relationship_examples.py`
+
+Each file contains 10+ complete, working cloud functions you can use as starting points.
+
+---
+
+## 📝 Documentation Structure
 
 ```
-cloud-functions/
+docs/
 ├── README.md                      ← You are here
-├── introduction.md                ← Getting started guide
 ├── database-api.md                ← Database API reference (comprehensive)
 ├── cloud-function-environment.md  ← Execution environment & request/response
 ├── quick-reference.md             ← Quick lookup (cheat sheet)
@@ -175,22 +205,21 @@ Every feature has working code examples you can copy and modify.
 
 ## 🔗 Quick Links
 
-1. **[Introduction](./introduction.md)** - Get started with Cloud Functions
-2. **[Database API](./database-api.md)** - Complete database reference
-3. **[Cloud Function Environment](./cloud-function-environment.md)** - Request/response handling
-4. **[Quick Reference](./quick-reference.md)** - Syntax cheat sheet
-5. **[Examples](./examples.md)** - Real-world use cases
+- **Database API**: [database-api.md](./database-api.md)
+- **Execution Environment**: [cloud-function-environment.md](./cloud-function-environment.md)
+- **Quick Reference**: [quick-reference.md](./quick-reference.md)
+- **Examples**: [examples.md](./examples.md)
+- **Code Samples**: `../examples/` directory
 
 ---
 
-## 🤝 Need Help?
+## 🤝 Support
 
-Start with:
+Need help? Check:
 
-1. **[Introduction](./introduction.md)** - If you're new to Cloud Functions
-2. **[Examples](./examples.md)** - For copy-paste starting points
-3. **[Quick Reference](./quick-reference.md)** - For quick syntax lookups
-4. **[Database API](./database-api.md)** - For in-depth database queries
+1. **API Reference** - Complete method documentation
+2. **Examples** - Real-world use cases
+3. **Quick Reference** - Common patterns
 
 ---
 

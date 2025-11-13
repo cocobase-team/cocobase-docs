@@ -514,58 +514,222 @@ def main():
 
 ---
 
-## 📦 Available Packages
+## 📦 Available Modules
 
-### Standard Library
+Cloud functions have access to these Python standard library modules **without import statements** (they're pre-loaded in the global scope):
 
-All Python 3.10 standard library modules:
+### Core Modules
 
 ```python
 def main():
-    import json
-    import datetime
-    import math
-    import re
-    import uuid
-    from collections import defaultdict
-    from datetime import datetime, timedelta
+    # ✅ Available directly (no import needed)
 
-    # Use standard library
-    current_time = datetime.now()
+    # JSON handling
+    data = json.loads('{"key": "value"}')
+    text = json.dumps({"data": 123})
+
+    # Date and time
+    now = datetime.now()
+    tomorrow = now + timedelta(days=1)
+    expires = now + timedelta(minutes=5)
+    timestamp = time.time()
+
+    # Mathematics
+    result = math.sqrt(16)
+    rounded = math.ceil(4.3)
+
+    # Regular expressions
+    pattern = re.compile(r'\d+')
+    matches = re.findall(r'[a-z]+', text)
+
+    # Random numbers (regular)
+    num = random.randint(1, 100)
+    choice = random.choice(['a', 'b', 'c'])
+
+    # Cryptographically secure random
+    otp = ''.join([str(secrets.randbelow(10)) for _ in range(6)])
+    token = secrets.token_urlsafe(32)
+
+    # UUID generation
     unique_id = str(uuid.uuid4())
 
+    # Hashing
+    hash_md5 = hashlib.md5(b"data").hexdigest()
+    hash_sha256 = hashlib.sha256(b"data").hexdigest()
+
+    # Base64 encoding/decoding
+    encoded = base64.b64encode(b"data").decode()
+    decoded = base64.b64decode(encoded)
+
+    # URL handling
+    from urllib.parse import urlencode, parse_qs
+    query_string = urlencode({'key': 'value'})
+    parsed = parse_qs('key=value&foo=bar')
+
+    # String constants
+    letters = string.ascii_letters
+    digits = string.digits
+    punctuation = string.punctuation
+
+    # Collections
+    counter = collections.Counter([1, 1, 2, 3, 3, 3])
+    groups = collections.defaultdict(list)
+
+    # Itertools
+    for pair in itertools.combinations([1, 2, 3], 2):
+        print(pair)
+
+    # Functools
+    from functools import reduce
+    total = reduce(lambda x, y: x + y, [1, 2, 3, 4])
+```
+
+### Complete Module List
+
+| Module | Description | Common Uses |
+|--------|-------------|-------------|
+| `json` | JSON encoding/decoding | Parse API responses, serialize data |
+| `datetime` | Date and time class | Current time, timestamps |
+| `timedelta` | Time duration class | Add/subtract time, expiration |
+| `time` | Time utilities | Delays, timestamps, timing |
+| `math` | Mathematical functions | Calculations, rounding, trigonometry |
+| `re` | Regular expressions | Pattern matching, validation |
+| `random` | Random number generation | Simple random operations |
+| `secrets` | **Cryptographically secure random** | **OTP generation, tokens, passwords** |
+| `uuid` | UUID generation | Unique identifiers |
+| `hashlib` | Hash functions | MD5, SHA256, data integrity |
+| `base64` | Base64 encoding | Encode/decode binary data |
+| `urllib` | URL utilities | URL parsing, encoding |
+| `string` | String constants | ASCII letters, digits, punctuation |
+| `collections` | Data structures | Counter, defaultdict, deque |
+| `itertools` | Iterator tools | Combinations, permutations |
+| `functools` | Higher-order functions | Reduce, partial, cache |
+
+### Practical Examples
+
+#### OTP Generation (Secure)
+
+```python
+def main():
+    # Generate 6-digit OTP (cryptographically secure)
+    otp = ''.join([str(secrets.randbelow(10)) for _ in range(6)])
+
+    # Alternative: alphanumeric OTP
+    chars = string.ascii_uppercase + string.digits
+    otp_code = ''.join(secrets.choice(chars) for _ in range(8))
+
+    # Secure token
+    auth_token = secrets.token_urlsafe(32)
+
+    return {"otp": otp, "token": auth_token}
+```
+
+#### Password Hashing
+
+```python
+def main():
+    password = request.get('password')
+
+    # Hash password with SHA256
+    hashed = hashlib.sha256(password.encode()).hexdigest()
+
+    # Or use SHA512 for better security
+    hashed = hashlib.sha512(password.encode()).hexdigest()
+
+    return {"hash": hashed}
+```
+
+#### URL Operations
+
+```python
+def main():
+    # Parse URL parameters
+    from urllib.parse import parse_qs, urlencode, quote, unquote
+
+    # Encode parameters
+    params = urlencode({'name': 'John Doe', 'age': 30})
+    # Result: 'name=John+Doe&age=30'
+
+    # Parse query string
+    parsed = parse_qs('name=John&age=30')
+    # Result: {'name': ['John'], 'age': ['30']}
+
+    # URL encode/decode
+    encoded = quote('Hello World!')
+    decoded = unquote('Hello%20World%21')
+
+    return {"encoded": encoded, "decoded": decoded}
+```
+
+#### Data Validation with Regex
+
+```python
+def main():
+    email = request.get('email')
+    phone = request.get('phone')
+
+    # Validate email
+    email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    is_valid_email = bool(re.match(email_pattern, email))
+
+    # Validate phone (US format)
+    phone_pattern = r'^\d{3}-\d{3}-\d{4}$'
+    is_valid_phone = bool(re.match(phone_pattern, phone))
+
+    # Extract numbers from text
+    numbers = re.findall(r'\d+', "Order #123 costs $45")
+    # Result: ['123', '45']
+
     return {
-        "time": current_time.isoformat(),
-        "id": unique_id
+        "email_valid": is_valid_email,
+        "phone_valid": is_valid_phone,
+        "numbers": numbers
     }
 ```
 
-### Common Patterns
+#### Collections and Counting
 
 ```python
-import json
-import re
-from datetime import datetime, timedelta
-from collections import defaultdict
-
 def main():
-    # JSON parsing
-    data = json.loads(request.get('json_string', '{}'))
+    votes = request.get('votes', [])
 
-    # Date handling
-    today = datetime.now()
-    tomorrow = today + timedelta(days=1)
+    # Count occurrences
+    vote_counts = collections.Counter(votes)
+    # Input: ['apple', 'banana', 'apple', 'orange', 'apple']
+    # Result: Counter({'apple': 3, 'banana': 1, 'orange': 1})
 
-    # Regular expressions
-    email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-    is_valid = re.match(email_pattern, email)
+    # Group items
+    items = db.query("products")["data"]
+    by_category = collections.defaultdict(list)
 
-    # Data structures
-    grouped = defaultdict(list)
     for item in items:
-        grouped[item['category']].append(item)
+        by_category[item['category']].append(item)
 
-    return {"grouped": dict(grouped)}
+    return {
+        "vote_counts": dict(vote_counts),
+        "by_category": dict(by_category)
+    }
+```
+
+#### Itertools Combinations
+
+```python
+def main():
+    # Generate all combinations
+    items = ['A', 'B', 'C', 'D']
+
+    # Pairs
+    pairs = list(itertools.combinations(items, 2))
+    # Result: [('A','B'), ('A','C'), ('A','D'), ('B','C'), ('B','D'), ('C','D')]
+
+    # Permutations (order matters)
+    perms = list(itertools.permutations(items, 2))
+
+    # Product (cartesian product)
+    products = list(itertools.product([1, 2], ['a', 'b']))
+    # Result: [(1,'a'), (1,'b'), (2,'a'), (2,'b')]
+
+    return {"pairs": pairs, "products": products}
 ```
 
 ---

@@ -27,7 +27,7 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "lordace-coder", // Usually your GitHub org/user name.
+  organizationName: "cocobase-team", // Usually your GitHub org/user name.
   projectName: "cocobase", // Usually your repo name.
 
   onBrokenLinks: "warn",
@@ -52,7 +52,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/lordace-coder/coco_base_js/tree/main/docs/",
+            "https://github.com/cocobase-team/cocobase-docs/tree/main/",
         },
         blog: false,
         pages: false,
@@ -78,17 +78,18 @@ const config = {
         title: "CocoBase",
         logo: {
           alt: "CocoBase Logo",
-          src: "https://cocomailer.cocobase.buzz/assets/site-logo-Dq4izFzY.png",
+          src: "/img/logo.webp",
         },
         items: [
           {
+            href: "https://youtube.com/@cocobaseofficial",
             type: "docSidebar",
             sidebarId: "tutorialSidebar",
             position: "left",
             label: "Tutorial",
           },
           {
-            href: "https://github.com/facebook/docusaurus",
+            href: "https://github.com/cocobase-team/cocobase-docs",
             label: "GitHub",
             position: "right",
           },
@@ -102,24 +103,24 @@ const config = {
             items: [
               {
                 label: "Tutorial",
-                to: "/",
+                to: "https://youtube.com/@cocobaseofficial",
               },
             ],
           },
           {
             title: "Community",
             items: [
-              {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
-              },
+              // {
+              //   label: "Stack Overflow",
+              //   href: "https://stackoverflow.com/questions/tagged/docusaurus",
+              // },
               {
                 label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
+                href: "https://discord.gg/vRawxmBq",
               },
               {
-                label: "X",
-                href: "https://x.com/docusaurus",
+                label: "YouTube",
+                href: "https://youtube.com/@cocobaseofficial",
               },
             ],
           },
@@ -128,13 +129,13 @@ const config = {
             items: [
               {
                 label: "GitHub",
-                href: "https://github.com/facebook/docusaurus",
+                href: "https://github.com/cocobase-team/cocobase-docs/",
               },
             ],
           },
         ],
         copyright: `Copyright © ${new Date().getFullYear()
-          } My Project, Inc.Built with Docusaurus.`,
+          } CocoBase, Inc. Built with Docusaurus.`,
       },
 
     }),
