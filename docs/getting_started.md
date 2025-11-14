@@ -1,8 +1,9 @@
 ---
+
 title: Project Setup
 slug: /getting-started
 sidebar_position: 2
----
+-------------------
 
 # Project Setup
 
@@ -12,9 +13,9 @@ Get your Cocobase project up and running in minutes. This guide covers everythin
 
 Before starting, ensure you have:
 
-- Node.js 16.x or higher
-- npm, yarn, or pnpm package manager
-- A modern code editor (VS Code recommended)
+* Node.js 16.x or higher
+* npm, yarn, or pnpm package manager
+* A modern code editor (VS Code recommended)
 
 ## Creating Your First Project
 
@@ -39,6 +40,22 @@ yarn add cocobase
 # Using pnpm
 pnpm add cocobase
 ```
+
+### CDN Installation (Browser Only)
+
+If you prefer using Cocobase directly in the browser without installing packages, use the CDN version:
+
+```html
+<script type="module">
+  import { Cocobase } from "https://unpkg.com/cocobase/dist/index.js";
+
+  const db = new Cocobase({ apiKey: "your-api-key" });
+
+  // Your code here
+</script>
+```
+
+> **Note:** CDN installation is ideal for quick demos, prototypes, or static HTML projects. For production apps, we recommend installing via npm/yarn/pnpm.
 
 ### 3. Basic Configuration
 
@@ -79,20 +96,20 @@ Now that your project is set up, you're ready to:
 
 **API Key Issues**
 
-- Ensure your API key is correct and not expired
-- Check that environment variables are properly loaded
-- Verify your project ID matches your dashboard
+* Ensure your API key is correct and not expired
+* Check that environment variables are properly loaded
+* Verify your project ID matches your dashboard
 
 **Network Issues**
 
-- Check your internet connection
-- Verify firewall settings allow HTTPS requests
-- Ensure your region is correctly configured
+* Check your internet connection
+* Verify firewall settings allow HTTPS requests
+* Ensure your region is correctly configured
 
 **TypeScript Issues**
 
-- Install type definitions: `npm install @types/node`
-- Enable strict mode in tsconfig.json for better type safety
-- Use generic types for better IntelliSense
+* Install type definitions: `npm install @types/node`
+* Enable strict mode in tsconfig.json for better type safety
+* Use generic types for better IntelliSense
 
-Need help? Join our [Discord community](https://discord.gg/cocobase) or contact support at hello@cocobase.buzz.
+Need help? Join our [Discord community](https://discord.gg/cocobase) or contact support at [hello@cocobase.buzz](mailto:hello@cocobase.buzz).
