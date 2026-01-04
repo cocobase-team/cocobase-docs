@@ -150,14 +150,14 @@ await db.createDocument("events", {
 
 ## 🆚 How We Compare
 
-| Feature                  | Cocobase       | Firebase    | Supabase   | Custom Backend   |
-| ------------------------ | -------------- | ----------- | ---------- | ---------------- |
-| **Setup Time**           | 2 minutes      | 15 minutes  | 30 minutes | Weeks/Months     |
-| **TypeScript Support**   | ✅ Native      | ⚠️ Limited  | ✅ Good    | 🛠️ DIY           |
-| **Learning Curve**       | 📈 Minimal     | 📈 Moderate | 📈 Steep   | 📈 Very Steep    |
-| **Authentication**       | ✅ Built-in    | ✅ Complex  | ✅ Good    | 🛠️ Build it      |
-| **Developer Experience** | 🔥 Excellent   | ⚠️ Mixed    | ✅ Good    | 🛠️ Varies        |
-| **Pricing**              | 💰 Transparent | 💰 Complex  | 💰 Fair    | 💰 Unpredictable |
+| Feature                  | Cocobase       | Custom Backend   |
+| ------------------------ | -------------- | ---------------- |
+| **Setup Time**           | 2 minutes      | Weeks/Months     |
+| **TypeScript Support**   | ✅ Native      | 🛠️ DIY           |
+| **Learning Curve**       | 📈 Minimal     | 📈 Very Steep    |
+| **Authentication**       | ✅ Built-in    | 🛠️ Build it      |
+| **Developer Experience** | 🔥 Excellent   | 🛠️ Varies        |
+| **Pricing**              | 💰 Transparent | 💰 Unpredictable |
 
 ## 🎨 Framework Integration
 
