@@ -1,9 +1,8 @@
 ---
-
 title: Project Setup
 slug: /getting-started
 sidebar_position: 2
--------------------
+---
 
 # Project Setup
 
