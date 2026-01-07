@@ -28,9 +28,9 @@ flutter pub get
 import 'package:cocobase/cocobase.dart';
 
 void main() {
-  final cocobase = Cocobase(
+  final cocobase = Cocobase(CocobaseConfig(
     apiKey: 'your-api-key-here',
-  );
+  ));
   
   runApp(MyApp(cocobase: cocobase));
 }
