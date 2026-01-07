@@ -28,9 +28,9 @@ flutter pub get
 import 'package:cocobase/cocobase.dart';
 
 void main() {
-  final cocobase = Cocobase(
+  final cocobase = Cocobase(CocobaseConfig(
     apiKey: 'your-api-key-here',
-  );
+  ));
   
   runApp(MyApp(cocobase: cocobase));
 }
@@ -55,15 +55,14 @@ class MyApp extends StatelessWidget {
 
 ## Configuration
 
-### Configuration Options
+### CocobaseConfig
 
 ```dart
-final cocobase = Cocobase(
+final config = CocobaseConfig(
   apiKey: 'your-api-key-here',
-  // Optional configuration
-  baseUrl: 'https://api.cocobase.com',
-  timeout: Duration(seconds: 30),
 );
+
+final cocobase = Cocobase(config);
 ```
 
 The SDK automatically connects to `https://api.cocobase.com` and handles:
@@ -148,10 +147,12 @@ print('Total users: ${users.length}');
 // Get documents with query
 final activeUsers = await cocobase.listDocuments<Map<String, dynamic>>(
   'users',
-  where: {'status': 'active'},
-  orderBy: 'created_at',
-  limit: 10,
-  offset: 0,
+  query: Query(
+    where: {'status': 'active'},
+    limit: 10,
+    offset: 0,
+    orderBy: 'created_at',
+  ),
 );
 
 print('Active users: ${activeUsers.length}');
@@ -159,11 +160,10 @@ print('Active users: ${activeUsers.length}');
 
 ### Query Options
 
-The `listDocuments` method supports the following query options:
+The `Query` class supports the following options:
 
 ```dart
-final results = await cocobase.listDocuments(
-  'users',
+final query = Query(
   where: {
     'status': 'active',
     'age': '25',
@@ -173,6 +173,8 @@ final results = await cocobase.listDocuments(
   limit: 20,              // Maximum number of results
   offset: 0,              // Skip first N results
 );
+
+final results = await cocobase.listDocuments('users', query: query);
 ```
 
 ### Working with Typed Data
@@ -237,9 +239,9 @@ void initializeApp() async {
 Future<void> registerUser(String email, String password) async {
   try {
     await cocobase.register(
-      email: email,
-      password: password,
-      userData: {
+      email,
+      password,
+      data: {
         'firstName': 'John',
         'lastName': 'Doe',
         'preferences': {
@@ -262,10 +264,7 @@ Future<void> registerUser(String email, String password) async {
 ```dart
 Future<void> loginUser(String email, String password) async {
   try {
-    await cocobase.login(
-      email: email,
-      password: password,
-    );
+    await cocobase.login(email, password);
     print('Login successful!');
     print('Welcome back, ${cocobase.user?.email}');
   } catch (e) {
@@ -303,7 +302,7 @@ Future<void> updateUserProfile() async {
     final updatedUser = await cocobase.updateUser(
       email: 'newemail@example.com',
       password: 'newpassword123',
-      userData: {
+      data: {
         'firstName': 'Jane',
         'preferences': {
           'theme': 'light',
@@ -468,8 +467,8 @@ class _AuthScreenState extends State<AuthScreen> {
     
     try {
       await widget.cocobase.login(
-        email: _emailController.text,
-        password: _passwordController.text,
+        _emailController.text,
+        _passwordController.text,
       );
       
       // Navigate to home screen
