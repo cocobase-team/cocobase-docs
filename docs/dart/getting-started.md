@@ -20,6 +20,8 @@ Welcome to the CocoBase Flutter SDK! This guide will help you get up and running
 
 ### 1. Add to Your `pubspec.yaml`
 
+Add the CocoBase SDK and its peer dependencies to your Flutter project. The SDK requires `dio` for HTTP requests, `web_socket_channel` for real-time features, and `shared_preferences` for local storage.
+
 ```yaml
 dependencies:
   flutter:
@@ -32,11 +34,15 @@ dependencies:
 
 ### 2. Run Dependencies
 
+Install all the packages you've added:
+
 ```bash
 flutter pub get
 ```
 
 ### 3. Verify Installation
+
+Test that the SDK is properly installed by importing it in your code:
 
 ```dart
 import 'package:coco_base_flutter/coco_base_flutter.dart';
@@ -46,11 +52,15 @@ void main() {
 }
 ```
 
+If this runs without errors, you're all set!
+
 ---
 
 ## Basic Setup
 
 ### Initialize CocoBase
+
+Before making any requests, create a `Cocobase` instance with your API credentials:
 
 ```dart
 import 'package:coco_base_flutter/coco_base_flutter.dart';
@@ -70,6 +80,8 @@ void main() async {
 }
 ```
 
+The `db` object is your main interface for all database operations.
+
 ### Get Your API Key
 
 1. Go to [CocoBase Dashboard](https://app.cocobase.buzz)
@@ -83,7 +95,7 @@ void main() async {
 
 ### List All Documents
 
-The simplest way to get started:
+The simplest way to get started is to retrieve all documents from a collection:
 
 ```dart
 // List all books
@@ -96,9 +108,11 @@ for (var doc in books) {
 }
 ```
 
+This returns a list of `CocoDocument` objects, each containing an `id` and `data` (as a Map).
+
 ### Filter Documents
 
-Using a simple filter map:
+Narrow down results by passing a `filters` map with field-value pairs:
 
 ```dart
 // Find published books
@@ -109,9 +123,11 @@ final publishedBooks = await db.listDocuments("books", filters: {
 print('Published books: ${publishedBooks.length}');
 ```
 
+Only documents where `status` equals `'published'` will be returned.
+
 ### With Type Safety
 
-Define your model:
+For better code safety and IDE autocomplete, create a Dart model class:
 
 ```dart
 class Book {
@@ -136,14 +152,18 @@ class Book {
 }
 ```
 
-Register the converter once:
+The `fromJson` factory method tells CocoBase how to convert raw JSON data into your typed `Book` objects.
+
+Register the converter once at app startup:
 
 ```dart
 // In your main() or app initialization
 CocobaseConverters.register<Book>(Book.fromJson);
 ```
 
-Now use it everywhere without passing converter:
+This global registration allows you to use type parameters without passing converters every time.
+
+Now you can use type parameters everywhere without passing the converter manually:
 
 ```dart
 // No converter parameter needed!
@@ -153,11 +173,15 @@ print('First book: ${books[0].data.title}');
 print('Author: ${books[0].data.author}');
 ```
 
+The `<Book>` type parameter automatically converts each document's data to a `Book` instance, giving you full autocomplete and type checking.
+
 ---
 
 ## Common Operations
 
 ### Create a Document
+
+Add a new document to a collection by passing your data object:
 
 ```dart
 final newBook = Book(
@@ -170,14 +194,22 @@ final created = await db.createDocument<Book>("books", newBook);
 print('Created with ID: ${created.id}');
 ```
 
+CocoBase generates a unique ID and returns the complete document including metadata like `createdAt`.
+
 ### Get a Specific Document
+
+Retrieve a single document by its ID:
 
 ```dart
 final book = await db.getDocument<Book>("books", "doc-id");
 print('Title: ${book.data.title}');
 ```
 
+Replace `"doc-id"` with the actual document ID you want to fetch.
+
 ### Update a Document
+
+Modify specific fields in an existing document:
 
 ```dart
 await db.updateDocument("books", "doc-id", {
@@ -186,17 +218,23 @@ await db.updateDocument("books", "doc-id", {
 });
 ```
 
+Only the fields you specify will be updated; other fields remain unchanged.
+
 ### Delete a Document
+
+Permanently remove a document from a collection:
 
 ```dart
 await db.deleteDocument("books", "doc-id");
 ```
 
+This action cannot be undone, so use with caution.
+
 ---
 
 ## Error Handling
 
-Always wrap requests in try-catch:
+Always wrap database requests in try-catch blocks to handle network failures and other errors gracefully:
 
 ```dart
 try {
@@ -208,6 +246,8 @@ try {
   print('Error: $e');
 }
 ```
+
+The `DioException` specifically catches HTTP/network errors, while the general `catch` handles all other exceptions.
 
 ---
 
